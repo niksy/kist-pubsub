@@ -1,4 +1,4 @@
-/*! kist-pubsub 0.0.0 - Simple publish/subscribe system. | Author: Ivan Nikolić, 2014 | License: MIT */
+/*! kist-pubsub 0.1.0 - Simple publish/subscribe system. | Author: Ivan Nikolić, 2014 | License: MIT */
 ;(function ( $, window, document, undefined ) {
 
 	var plugin = {
