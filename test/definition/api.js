@@ -13,4 +13,8 @@ pubsub.subscribe('foo.bar', function ( e, data ) {
 
 });
 
+pubsub.subscribeOnce('foo.bar', function ( e, data ) {
+
+});
+
 pubsub.unsubscribe('foo.bar');

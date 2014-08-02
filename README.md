@@ -77,6 +77,12 @@ Callback to run when event is published.
 First argument (standard event object) won’t be passed if `event` property inside initialization object is set to `false`.  
 List of arguments after that is data passed via published event.
 
+### `subscribeOnce(event, callback)`
+
+Subscribe to specific event only once.
+
+API is same as for [subscribe](#subscribe).
+
 ### `unsubscribe(event)`
 
 Unsubscribes from specific event.
@@ -119,6 +125,12 @@ Subscribe to event `foo.bar`.
 
 ```js
 pubsub.subscribe('foo.bar', function ( e, arg1, arg2 ) {});
+```
+
+Subscribe only once to event `foo.bar`.
+
+```js
+pubsub.subscribeOnce('foo.bar', function ( e, arg1, arg2 ) {});
 ```
 
 Unsubscribe from event `foo.bar`.

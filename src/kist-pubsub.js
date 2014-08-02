@@ -71,6 +71,22 @@
 	}
 
 	/**
+	 * @this {PubSub}
+	 *
+	 * @param  {String}   topic
+	 * @param  {Function} fn
+	 * @param  {String}   type
+	 *
+	 * @return {}
+	 */
+	function subscribe ( topic, fn, type ) {
+		topic = generateTopic.call(this, topic);
+		var wrapper = resolveEvent.call(this, fn);
+		getQueue.call(this, topic, wrapper);
+		this.o[type].call(this.o, topic, wrapper);
+	}
+
+	/**
 	 * @class
 	 *
 	 * @param {Object} options
@@ -98,10 +114,17 @@
 		 * @return {}
 		 */
 		subscribe: function ( topic, fn ) {
-			topic = generateTopic.call(this, topic);
-			var wrapper = resolveEvent.call(this, fn);
-			getQueue.call(this, topic, wrapper);
-			this.o.on.call(this.o, topic, wrapper);
+			subscribe.call(this, topic, fn, 'on');
+		},
+
+		/**
+		 * @param  {String}   topic
+		 * @param  {Function} fn
+		 *
+		 * @return {}
+		 */
+		subscribeOnce: function ( topic, fn ) {
+			subscribe.call(this, topic, fn, 'one');
 		},
 
 		/**
