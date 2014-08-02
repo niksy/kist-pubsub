@@ -28,7 +28,7 @@ Should subscribed event have event object as first argument in passed callback (
 Type: `Boolean`  
 Default: `false`
 
-Should this instance implement queue system. When you subscribe to that specific event at later date, callback with data from already applied callback for that specific event will be activated.
+Should this instance implement queue system. When you subscribe to that specific event at later date, callback with data from last already applied callback for that specific event will be activated.
 
 ##### `namespace`
 
