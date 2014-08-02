@@ -30,6 +30,13 @@ Default: `false`
 
 Should this instance implement queue system. When you subscribe to that specific event at later date, callback with data from already applied callback for that specific event will be activated.
 
+##### `namespace`
+
+Type: `String`  
+Default: ``
+
+Default event namespace for this instance of PubSub system.
+
 ### `publish(event, data)`
 
 Publish data for specific event.
@@ -92,7 +99,8 @@ Destroy/unsubscribe from all events.
 ```js
 var pubsub = new $.kist.PubSub({
 	event: true,
-	queue: false
+	queue: false,
+	namespace: 'appNs'
 });
 ```
 

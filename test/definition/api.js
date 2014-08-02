@@ -1,6 +1,7 @@
 var pubsub = new $.kist.PubSub({
 	event: true,
-	queue: false
+	queue: false,
+	namespace: ''
 });
 
 pubsub.publish('foo.bar', 1);
