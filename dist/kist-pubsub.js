@@ -1,4 +1,4 @@
-/*! kist-pubsub 0.1.0 - Simple publish/subscribe system. | Author: Ivan Nikolić, 2014 | License: MIT */
+/*! kist-pubsub 0.1.1 - Simple publish/subscribe system. | Author: Ivan Nikolić, 2014 | License: MIT */
 ;(function ( $, window, document, undefined ) {
 
 	var plugin = {
@@ -57,6 +57,37 @@
 	}
 
 	/**
+	 * @this {PubSub}
+	 *
+	 * @param  {String} topic
+	 *
+	 * @return {String}
+	 */
+	function generateTopic ( topic ) {
+		topic = topic || '';
+		if ( this.options.namespace ) {
+			return topic + '.' + this.options.namespace;
+		}
+		return topic;
+	}
+
+	/**
+	 * @this {PubSub}
+	 *
+	 * @param  {String}   topic
+	 * @param  {Function} fn
+	 * @param  {String}   type
+	 *
+	 * @return {}
+	 */
+	function subscribe ( topic, fn, type ) {
+		topic = generateTopic.call(this, topic);
+		var wrapper = resolveEvent.call(this, fn);
+		getQueue.call(this, topic, wrapper);
+		this.o[type].call(this.o, topic, wrapper);
+	}
+
+	/**
 	 * @class
 	 *
 	 * @param {Object} options
@@ -65,6 +96,9 @@
 
 		this.o = $({});
 		this.options = $.extend({}, this.defaults, options);
+
+		// Clean namespace
+		this.options.namespace = $.trim(this.options.namespace).replace(/^\.+/,'');
 
 		if ( this.options.queue ) {
 			this.queue = {};
@@ -81,13 +115,27 @@
 		 * @return {}
 		 */
 		subscribe: function ( topic, fn ) {
-			var wrapper = resolveEvent.call(this, fn);
-			getQueue.call(this, topic, wrapper);
-			this.o.on(topic, wrapper);
+			subscribe.call(this, topic, fn, 'on');
 		},
 
-		unsubscribe: function () {
-			this.o.off.apply(this.o, arguments);
+		/**
+		 * @param  {String}   topic
+		 * @param  {Function} fn
+		 *
+		 * @return {}
+		 */
+		subscribeOnce: function ( topic, fn ) {
+			subscribe.call(this, topic, fn, 'one');
+		},
+
+		/**
+		 * @param  {String} topic
+		 *
+		 * @return {}
+		 */
+		unsubscribe: function ( topic ) {
+			topic = generateTopic.call(this, topic);
+			this.o.off.call(this.o, topic);
 		},
 
 		/**
@@ -97,8 +145,9 @@
 		 * @return {}
 		 */
 		publish: function ( topic, data ) {
+			topic = generateTopic.call(this, topic);
 			setQueue.call(this, topic, data);
-			this.o.trigger.apply(this.o, arguments);
+			this.o.trigger.call(this.o, topic, data);
 		},
 
 		destroy: function () {
@@ -110,7 +159,8 @@
 		 */
 		defaults: {
 			event: true,
-			queue: false
+			queue: false,
+			namespace: ''
 		}
 
 	});
