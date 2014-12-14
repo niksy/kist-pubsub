@@ -5,39 +5,30 @@ Simple publish/subscribe system.
 ## Installation
 
 ```sh
-bower install niksy/kist-pubsub
+npm install kist-pubsub --save
+
+bower install kist-pubsub --save
 ```
 
 ## API
 
 ### `new PubSub(options)`
 
-Returns: `Object`
+Returns: `PubSub`
 
-#### Options
+#### options
 
-##### `event`
+Type: `Object`
 
-Type: `Boolean`  
-Default: `true`
+Instance options.
 
-Should subscribed event have event object as first argument in passed callback (same as in standard jQuery event system).
+| Property | Type | Description | Default value |
+| --- | --- | --- | --- |
+| `event` | `Boolean` | Should subscribed event have event object as first argument in passed callback (same as in standard jQuery event system). | `true` |
+| `queue` | `Boolean` | Should this instance implement queue system. When you subscribe to that specific event at later date, callback with data from last already applied callback for that specific event will be activated. | `false` |
+| `namespace` | `String` | Default event namespace for this instance of PubSub system. | `''` |
 
-##### `queue`
-
-Type: `Boolean`  
-Default: `false`
-
-Should this instance implement queue system. When you subscribe to that specific event at later date, callback with data from last already applied callback for that specific event will be activated.
-
-##### `namespace`
-
-Type: `String`  
-Default: ``
-
-Default event namespace for this instance of PubSub system.
-
-### `publish(event, data)`
+### `.publish(event, data)`
 
 Publish data for specific event.
 
@@ -55,7 +46,7 @@ Type: `Array|Object`
 
 Data to pass via published event. Behaves same as [`trigger` in standard jQuery event system](http://api.jquery.com/trigger/#trigger-event-extraParameters).
 
-### `subscribe(event, callback)`
+### `.subscribe(event, callback, condition)`
 
 Subscribe to specific event.
 
@@ -77,13 +68,13 @@ Callback to run when event is published.
 First argument (standard event object) won’t be passed if `event` property inside initialization object is set to `false`.  
 List of arguments after that is data passed via published event.
 
-### `subscribeOnce(event, callback)`
+### `.subscribeOnce(event, callback)`
 
 Subscribe to specific event only once.
 
 API is same as for [subscribe](#subscribe).
 
-### `unsubscribe(event)`
+### `.unsubscribe(event)`
 
 Unsubscribes from specific event.
 
@@ -94,23 +85,22 @@ Type: `String`
 
 Event to unsubscribe from.
 
-### `destroy`
+### `.destroy()`
 
 Destroy/unsubscribe from all events.
 
 ## Examples
 
-### Initalization
+Initialization.
 
 ```js
-var pubsub = new $.kist.PubSub({
+var PubSub = require('kist-pubsub');
+var pubsub = new PubSub({
 	event: true,
 	queue: false,
 	namespace: 'appNs'
 });
 ```
-
-### Usage
 
 Trigger event with specific data.
 
@@ -143,6 +133,14 @@ Destroy/unsubscribe from all events.
 
 ```js
 pubsub.destroy();
+```
+
+### AMD and global
+
+```js
+define(['kist-pubsub'], cb);
+
+window.$.kist.PubSub;
 ```
 
 ## Browser support

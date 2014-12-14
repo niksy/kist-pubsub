@@ -3,10 +3,10 @@
   "version": "0.1.1",
   "description": "Simple publish/subscribe system.",
   "authors": [
-    "Ivan Nikolić"
+    "Ivan Nikolić <niksy5@gmail.com> (http://ivannikolic.com/)"
   ],
   "license": "MIT",
-  "main": "dist/kist-pubsub.min.js",
+  "main": "dist/kist-pubsub.js",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -14,14 +14,20 @@
     "test",
     "tests",
     "src",
+    "lib"
     "Gruntfile.js",
     "package.json"
   ],
   "dependencies": {
     "jquery": ">=1"
   },
+  "devDependencies": {
+    "jquery": "1"
+  },
   "homepage": "https://github.com/niksy/kist-pubsub",
   "keywords": [
-    "pubsub"
+    "kist",
+    "pubsub",
+    "browserify"
   ]
 }
