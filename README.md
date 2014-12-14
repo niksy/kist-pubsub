@@ -46,6 +46,8 @@ Type: `Array|Object`
 
 Data to pass via published event. Behaves same as [`trigger` in standard jQuery event system](http://api.jquery.com/trigger/#trigger-event-extraParameters).
 
+In addition to behaving like jQuery `trigger`, if you pass more than one argument (not counting event), all arguments will be passed as list of arguments to `subscribe` methods.
+
 ### `.subscribe(event, callback, condition)`
 
 Subscribe to specific event.

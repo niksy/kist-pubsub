@@ -23,10 +23,11 @@
 		});
 
 		$('.publish1').on('click', function () {
+			pubsub.publish('foo.bar');
 			pubsub.publish('foo.bar', 'foo');
-			pubsub.publish('foo.bar', 'foo', 'bar');
-			pubsub.publish('foo.bar', ['foo', 'bar']);
-			pubsub.publish('bar.foo', ['bar', 'foo']);
+			pubsub.publish('foo.bar', 'foo', 'bar', 'baz', 42, 'bad');
+			pubsub.publish('foo.bar', ['foo', 'bar', 'baz', 42, 'bad']);
+			pubsub.publish('bar.foo', ['bar', 'foo', 'baz', 42, 'bad']);
 		});
 
 		$('.unsubscribe1').on('click', function () {

@@ -23,9 +23,9 @@
 
 		$('.publish1').on('click', function () {
 			pubsub1.publish('foo.bar', 'foo');
-			pubsub1.publish('foo.bar', 'foo', 'bar');
-			pubsub1.publish('foo.bar', ['foo', 'bar']);
-			pubsub2.publish('foo.bar', ['foo', 'bar']);
+			pubsub1.publish('foo.bar', 'foo', 'bar', 'baz', 42, 'bad');
+			pubsub1.publish('foo.bar', ['foo', 'bar', 'baz', 42, 'bad']);
+			pubsub2.publish('foo.bar', ['foo', 'bar', 'baz', 42, 'bad']);
 		});
 
 		$('.unsubscribe1').on('click', function () {
