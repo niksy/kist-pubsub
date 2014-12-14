@@ -8,8 +8,6 @@ var $ = (typeof window !== "undefined" ? window.$ : typeof global !== "undefined
  *
  * @param {String} topic
  * @param {Array|Object} data
- *
- * @return {}
  */
 function setQueue ( topic, data ) {
 	if ( this.options.queue ) {
@@ -22,8 +20,6 @@ function setQueue ( topic, data ) {
  *
  * @param  {String}   topic
  * @param  {Function} fn
- *
- * @return {}
  */
 function getQueue ( topic, fn ) {
 	var data;
@@ -40,13 +36,18 @@ function getQueue ( topic, fn ) {
  * @this {PubSub}
  *
  * @param  {Function} fn
+ * @param  {Function} condition
  *
  * @return {Function}
  */
-function resolveEvent ( fn ) {
+function resolveEvent ( fn, condition ) {
 	var event = this.options.event;
 	function wrapper () {
-		return fn.apply(this, (!event ? [].slice.call(arguments, 1) : arguments));
+		var args = (!event ? [].slice.call(arguments, 1) : arguments);
+		if ( Boolean(condition.apply(this, arguments)) ) {
+			return fn.apply(this, args);
+		}
+		return $.noop;
 	}
 	if ( !event ) {
 		wrapper.guid = fn.guid = fn.guid || $.guid++;
@@ -75,14 +76,19 @@ function generateTopic ( topic ) {
  * @param  {String}   topic
  * @param  {Function} fn
  * @param  {String}   type
- *
- * @return {}
+ * @param  {Function} condition
  */
-function subscribe ( topic, fn, type ) {
+function subscribe ( topic, fn, condition, type ) {
+
+	condition = condition || function () {
+		return true;
+	};
 	topic = generateTopic.call(this, topic);
-	var wrapper = resolveEvent.call(this, fn);
+	var wrapper = resolveEvent.call(this, fn, condition);
+
 	getQueue.call(this, topic, wrapper);
 	this.o[type].call(this.o, topic, wrapper);
+
 }
 
 /**
@@ -109,17 +115,19 @@ $.extend(PubSub.prototype, {
 	/**
 	 * @param  {String}   topic
 	 * @param  {Function} fn
+	 * @param  {Function} condition
 	 */
-	subscribe: function ( topic, fn ) {
-		subscribe.call(this, topic, fn, 'on');
+	subscribe: function ( topic, fn, condition ) {
+		subscribe.call(this, topic, fn, condition, 'on');
 	},
 
 	/**
 	 * @param  {String}   topic
 	 * @param  {Function} fn
+	 * @param  {Function} condition
 	 */
-	subscribeOnce: function ( topic, fn ) {
-		subscribe.call(this, topic, fn, 'one');
+	subscribeOnce: function ( topic, fn, condition ) {
+		subscribe.call(this, topic, fn, condition, 'one');
 	},
 
 	/**

@@ -60,15 +60,22 @@ Event to subscribe to.
 #### callback
 
 Type: `Function`  
-Provides: `[Event], ...Arguments`  
 *Required*
 
-Callback to run when event is published.
+Callback to run when event is published. Provided arguments are:
 
-First argument (standard event object) won’t be passed if `event` property inside initialization object is set to `false`.  
-List of arguments after that is data passed via published event.
+| Argument | Type | Description |
+| --- | --- | --- |
+| `e` | `$.Event` | Standard event object. Won’t be passed if `event` property inside initialization object is set to `false`. |
+| `args…` | `Mixed` | List of arguments after that is data passed via published event. |
 
-### `.subscribeOnce(event, callback)`
+#### condition
+
+Type: `Function`
+
+If return value is truthy value, it will activate `callback` function. Gets same arguments like [`callback`](#callback).
+
+### `.subscribeOnce(event, callback, condition)`
 
 Subscribe to specific event only once.
 
@@ -115,12 +122,24 @@ Subscribe to event `foo.bar`.
 
 ```js
 pubsub.subscribe('foo.bar', function ( e, arg1, arg2 ) {});
+pubsub.subscribe('foo.bar', function ( e, arg1, arg2 ) {}, function () {
+	if ( condition ) {
+		return true;
+	}
+	return false;
+});
 ```
 
 Subscribe only once to event `foo.bar`.
 
 ```js
 pubsub.subscribeOnce('foo.bar', function ( e, arg1, arg2 ) {});
+pubsub.subscribeOnce('foo.bar', function ( e, arg1, arg2 ) {}, function () {
+	if ( condition ) {
+		return true;
+	}
+	return false;
+});
 ```
 
 Unsubscribe from event `foo.bar`.
