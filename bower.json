@@ -14,7 +14,7 @@
     "test",
     "tests",
     "src",
-    "lib"
+    "lib",
     "Gruntfile.js",
     "package.json"
   ],
