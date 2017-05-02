@@ -1,3 +1,15 @@
+![Unmaintained project](https://img.shields.io/badge/status-unmaintained-red.svg)
+
+**This project is unmaintained.**
+
+Use one of the following alternatives:
+
+* [mitt](https://github.com/developit/mitt)
+* [tiny-emitter](https://github.com/scottcorgan/tiny-emitter)
+* [`EventEmitter`](https://nodejs.org/api/events.html)
+
+---
+
 # kist-pubsub
 
 Simple publish/subscribe system.
